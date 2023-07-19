@@ -1,0 +1,1613 @@
+
+## HOW TO SET A ENVIRONMENT?
+
+.oraenv system (whatever database name we are given like: system(here system is a database name))
+(seting the environment first to connect with the database)
+
+## WHAT IS ALERT LOG FILE?
+
+Alert log file is a file in every database it will start with the name alert & after under score you will get the name of database.
+oracle database write every information in the alert log file what was the issue going on,
+ what was the error in the database whenever using database)
+
+## IF ALERT LOG FILE IS DELETED WHAT WILL YOU DO?
+
+Whenever we will start our database again alert log file will be created automatically.
+
+(definately history will be deleted we can't do anything but file will be created automatically.) 
+
+## What is Archivelog?
+
+What is Oracle archivelog mode?
+
+An Oracle database can run in one of two modes. By default, the database is created in NOARCHIVELOG mode.
+ This command will check to see if you have altered your database to run in ARCHIVELOG mode. connected. connected.
+ You can also run this UNIX/Linux command to see if you are running in archivelog mode
+
+##Database Storage Architecture
+
+Control files  , Data files  , Online redo log files
+
+Parameter files , Backup files , Archived redo log files
+
+Password files  ,Alert log and trace files
+
+## Database Files
+
+Control files
+Data files
+Online redo log files
+
+RMAN BACKUP DATABASE
+--------------------
+
+C:\Users\laxmi>rman target /
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Mon Mar 1 22:23:15 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: ORCTRN (DBID=3206875165)
+
+RMAN> backup database;
+
+RMAN> backup current controlfile;
+
+RMAN> backup spfile;
+
+RMAN> backup tablespace users;
+
+RMAN> list backup;
+
+RMAN> backup incremental level 0 database;(FULL DATABASE BACKUP)
+
+
+RMAN> backup incremental level 1 database;(PARTIAL DATABASE BACKUP)
+
+RMAN> select LOG_MODE from v$database;
+
+
+database security:
+
+roles
+previllages
+grants
+rovoke
+(user creation)
+
+
+
+SQL> desc dba_users;
+
+SQL> select username, CREATED from dba_users;
+
+
+SQL> desc dba_roles;
+
+SQL> grant CREATE SESSION to system;
+
+SQL> grant create table to system;
+
+SQL> revoke create table from system;
+
+SQL> grant create table to system with admin option;
+
+
+
+SQL> desc dba_roles;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLE                                      NOT NULL VARCHAR2(128)
+ ROLE_ID                                   NOT NULL NUMBER
+ PASSWORD_REQUIRED                                  VARCHAR2(8)
+ AUTHENTICATION_TYPE                                VARCHAR2(11)
+ COMMON                                             VARCHAR2(3)
+ ORACLE_MAINTAINED                                  VARCHAR2(1)
+ INHERITED                                          VARCHAR2(3)
+ IMPLICIT                                           VARCHAR2(3)
+ EXTERNAL_NAME                                      VARCHAR2(4000)
+
+
+SQL> grant CREATE SESSION to system;
+
+Grant succeeded.
+
+SQL> grant create table to system;
+
+Grant succeeded.
+
+SQL> revoke create table from system;
+
+Revoke succeeded.
+
+SQL> grant create table to system with admin option;
+
+Grant succeeded.
+
+SQL> alter user system quota 1m on users;
+
+User altered.
+
+SQL> alter user system quota unlimited on users;
+
+User altered.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+oracle command connection as to database as sysdba
+
+ sqlplus " /as sysdba"
+
+shutdown database 
+  shutdown immediate;
+
+start the database 
+ startup;
+
+
+
+setting oracle database name on command prompt
+
+set oracle_sid=ORCTRN
+
+datapump export
+--------------
+
+
+
+DATABASE:
+
+SELECT * FROM DBA_DATA_FILES
+
+CATALOG TABLE(PARAMETER TABLE)
+
+SELECT * FROM V$PARAMETER
+
+
+
+
+SYS
+DATA_PUMP_DIR(name of the directory)
+C:\Oracle\admin\orctrn\dpdump/
+
+expdp system/Govinda123 directory=data_pump_dir dumpfile=mydatabase_01212021.dmp
+
+FULL EXPORT MODE:
+            
+expdp system/Govinda123 directory=data_pump_dir dumpfile=mynewdb_01212021.dmp full =y
+
+
+TABLE MODE:
+
+impdp system/Govinda123 directory=data_pump_dir dumpfile=database_02032021.dmp tables=system.employee,system.customer,system.product
+
+SCHEMA MODE:
+
+expdp system/Govinda123 directory=data_pump_dir dumpfile=dbs_0201202.dmp schama
+
+FULL IMPORT MODE:
+
+C:\Users\laxmi>impdp system/Govinda123 directory=data_pump_dir dumpfile=mydb_02012021.dmp full =y
+
+impdp system/Govinda123 directory=data_pump_dir dumpfile=samdbs_01212021.dmp tables=system.employee,system.customer,system.product
+
+
+C:\Users\laxmi>sqlplus / as sysdba;
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Sun Jan 31 22:48:12 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> desc dba_tablespaces;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ TABLESPACE_NAME                           NOT NULL VARCHAR2(30)
+ BLOCK_SIZE                                NOT NULL NUMBER
+ INITIAL_EXTENT                                     NUMBER
+ NEXT_EXTENT                                        NUMBER
+ MIN_EXTENTS                               NOT NULL NUMBER
+ MAX_EXTENTS                                        NUMBER
+ MAX_SIZE                                           NUMBER
+ PCT_INCREASE                                       NUMBER
+ MIN_EXTLEN                                         NUMBER
+ STATUS                                             VARCHAR2(9)
+ CONTENTS                                           VARCHAR2(21)
+ LOGGING                                            VARCHAR2(9)
+ FORCE_LOGGING                                      VARCHAR2(3)
+ EXTENT_MANAGEMENT                                  VARCHAR2(10)
+ ALLOCATION_TYPE                                    VARCHAR2(9)
+ PLUGGED_IN                                         VARCHAR2(3)
+ SEGMENT_SPACE_MANAGEMENT                           VARCHAR2(6)
+ DEF_TAB_COMPRESSION                                VARCHAR2(8)
+ RETENTION                                          VARCHAR2(11)
+ BIGFILE                                            VARCHAR2(3)
+ PREDICATE_EVALUATION                               VARCHAR2(7)
+ ENCRYPTED                                          VARCHAR2(3)
+ COMPRESS_FOR                                       VARCHAR2(30)
+ DEF_INMEMORY                                       VARCHAR2(8)
+ DEF_INMEMORY_PRIORITY                              VARCHAR2(8)
+ DEF_INMEMORY_DISTRIBUTE                            VARCHAR2(15)
+ DEF_INMEMORY_COMPRESSION                           VARCHAR2(17)
+ DEF_INMEMORY_DUPLICATE                             VARCHAR2(13)
+ SHARED                                             VARCHAR2(13)
+ DEF_INDEX_COMPRESSION                              VARCHAR2(8)
+ INDEX_COMPRESS_FOR                                 VARCHAR2(13)
+ DEF_CELLMEMORY                                     VARCHAR2(14)
+ DEF_INMEMORY_SERVICE                               VARCHAR2(12)
+ DEF_INMEMORY_SERVICE_NAME                          VARCHAR2(1000)
+ LOST_WRITE_PROTECT                                 VARCHAR2(7)
+ CHUNK_TABLESPACE                                   VARCHAR2(1)
+
+SQL> select TABLESPACE_NAME from dba_tablespaces;
+
+TABLESPACE_NAME
+------------------------------
+SYSTEM
+SYSAUX
+UNDOTBS1
+TEMP
+USERS
+
+SQL> describe system.customer;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ CUSTOMER_ID                               NOT NULL NUMBER
+ CUSTOMER_NAME                                      VARCHAR2(20)
+ CONTACT_NAME                                       VARCHAR2(20)
+ ADDRESS                                   NOT NULL VARCHAR2(20)
+ CITY                                      NOT NULL VARCHAR2(20)
+
+SQL> select username from dba_users;
+
+USERNAME
+--------------------------------------------------------------------------------
+SYS
+SYSTEM
+XS$NULL
+OJVMSYS
+LBACSYS
+OUTLN
+SYS$UMF
+DBSNMP
+APPQOSSYS
+DBSFWUSER
+GGSYS
+
+USERNAME
+--------------------------------------------------------------------------------
+ANONYMOUS
+CTXSYS
+DVSYS
+DVF
+GSMADMIN_INTERNAL
+MDSYS
+OLAPSYS
+XDB
+WMSYS
+GSMCATUSER
+MDDATA
+
+USERNAME
+--------------------------------------------------------------------------------
+SYSBACKUP
+REMOTE_SCHEDULER_AGENT
+GSMUSER
+C##laxmi
+SYSRAC
+GSMROOTUSER
+SI_INFORMTN_SCHEMA
+AUDSYS
+DIP
+ORDPLUGINS
+SYSKM
+
+USERNAME
+--------------------------------------------------------------------------------
+ORDDATA
+ORACLE_OCM
+SYSDG
+ORDSYS
+
+37 rows selected.
+
+SQL> select * from dba_directories;
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+ORACLECLRDIR
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home\bin\clr
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+SDO_DIR_WORK
+
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+SDO_DIR_ADMIN
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home/md/admin
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+XMLDIR
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home\rdbms\xml
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+XSDDIR
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home\rdbms\xml\schema
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+OPATCH_INST_DIR
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home\OPatch
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+ORACLE_OCM_CONFIG_DIR2
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home\ccr\state
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+ORACLE_BASE
+C:\Oracle
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+ORACLE_HOME
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+ORACLE_OCM_CONFIG_DIR
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home\ccr\state
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+DATA_PUMP_DIR
+C:\Oracle\admin\orctrn\dpdump/
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+OPATCH_SCRIPT_DIR
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home\QOpatch
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+OPATCH_LOG_DIR
+C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home\rdbms\log
+            1
+
+
+OWNER
+--------------------------------------------------------------------------------
+DIRECTORY_NAME
+--------------------------------------------------------------------------------
+DIRECTORY_PATH
+--------------------------------------------------------------------------------
+ORIGIN_CON_ID
+-------------
+SYS
+JAVA$JOX$CUJS$DIRECTORY$
+C:\USERS\LAXMI\DOWNLOADS\WINDOWS.X64_193000_DB_HOME\JAVAVM\ADMIN\
+            1
+
+
+14 rows selected.
+
+SQL> exit;
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+C:\Users\laxmi>expdp help = y
+
+Export: Release 19.0.0.0.0 - Production on Sun Jan 31 22:56:53 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+
+The Data Pump export utility provides a mechanism for transferring data objects
+between Oracle databases. The utility is invoked with the following command:
+
+   Example: expdp scott/tiger DIRECTORY=dmpdir DUMPFILE=scott.dmp
+
+You can control how Export runs by entering the 'expdp' command followed
+by various parameters. To specify parameters, you use keywords:
+
+   Format:  expdp KEYWORD=value or KEYWORD=(value1,value2,...,valueN)
+   Example: expdp scott/tiger DUMPFILE=scott.dmp DIRECTORY=dmpdir SCHEMAS=scott
+               or TABLES=(T1:P1,T1:P2), if T1 is partitioned table
+
+USERID must be the first parameter on the command line.
+
+------------------------------------------------------------------------------
+
+The available keywords and their descriptions follow. Default values are listed within square brackets.
+
+ABORT_STEP
+Stop the job after it is initialized or at the indicated object.
+Valid values are -1 or N where N is zero or greater.
+N corresponds to the object's process order number in the master table.
+
+ACCESS_METHOD
+Instructs Export to use a particular method to unload data.
+Valid keyword values are: [AUTOMATIC], DIRECT_PATH and EXTERNAL_TABLE.
+
+ATTACH
+Attach to an existing job.
+For example, ATTACH=job_name.
+
+CLUSTER
+Utilize cluster resources and distribute workers across the Oracle RAC [YES].
+
+COMPRESSION
+Reduce the size of a dump file.
+Valid keyword values are: ALL, DATA_ONLY, [METADATA_ONLY] and NONE.
+
+COMPRESSION_ALGORITHM
+Specify the compression algorithm that should be used.
+Valid keyword values are: [BASIC], LOW, MEDIUM and HIGH.
+
+CONTENT
+Specifies data to unload.
+Valid keyword values are: [ALL], DATA_ONLY and METADATA_ONLY.
+
+DATA_OPTIONS
+Data layer option flags.
+Valid keyword values are: GROUP_PARTITION_TABLE_DATA, VERIFY_STREAM_FORMAT and XML_CLOBS.
+
+DIRECTORY
+Directory object to be used for dump and log files.
+
+DUMPFILE
+Specify list of destination dump file names [expdat.dmp].
+For example, DUMPFILE=scott1.dmp, scott2.dmp, dmpdir:scott3.dmp.
+
+ENCRYPTION
+Encrypt part or all of a dump file.
+Valid keyword values are: ALL, DATA_ONLY, ENCRYPTED_COLUMNS_ONLY, METADATA_ONLY and NONE.
+
+ENCRYPTION_ALGORITHM
+Specify how encryption should be done.
+Valid keyword values are: [AES128], AES192 and AES256.
+
+ENCRYPTION_MODE
+Method of generating encryption key.
+Valid keyword values are: DUAL, PASSWORD and [TRANSPARENT].
+
+ENCRYPTION_PASSWORD
+Password key for creating encrypted data within a dump file.
+
+ENCRYPTION_PWD_PROMPT
+Specifies whether to prompt for the encryption password [NO].
+Terminal echo will be suppressed while standard input is read.
+
+ESTIMATE
+Calculate job estimates.
+Valid keyword values are: [BLOCKS] and STATISTICS.
+
+ESTIMATE_ONLY
+Calculate job estimates without performing the export [NO].
+
+EXCLUDE
+Exclude specific object types.
+For example, EXCLUDE=SCHEMA:"='HR'".
+
+FILESIZE
+Specify the size of each dump file in units of bytes.
+
+FLASHBACK_SCN
+SCN used to reset session snapshot.
+
+FLASHBACK_TIME
+Time used to find the closest corresponding SCN value.
+
+FULL
+Export entire database [NO].
+
+HELP
+Display Help messages [NO].
+
+INCLUDE
+Include specific object types.
+For example, INCLUDE=TABLE_DATA.
+
+JOB_NAME
+Name of export job to create.
+
+KEEP_MASTER
+Retain the master table after an export job that completes successfully [NO].
+
+LOGFILE
+Specify log file name [export.log].
+
+LOGTIME
+Specifies that messages displayed during export operations be timestamped.
+Valid keyword values are: ALL, [NONE], LOGFILE and STATUS.
+
+METRICS
+Report additional job information to the export log file [NO].
+
+NETWORK_LINK
+Name of remote database link to the source system.
+
+NOLOGFILE
+Do not write log file [NO].
+
+PARALLEL
+Change the number of active workers for current job.
+
+PARFILE
+Specify parameter file name.
+
+QUERY
+Predicate clause used to export a subset of a table.
+For example, QUERY=employees:"WHERE department_id > 10".
+
+REMAP_DATA
+Specify a data conversion function.
+For example, REMAP_DATA=EMP.EMPNO:REMAPPKG.EMPNO.
+
+REUSE_DUMPFILES
+Overwrite destination dump file if it exists [NO].
+
+SAMPLE
+Percentage of data to be exported.
+
+SCHEMAS
+List of schemas to export [login schema].
+
+SERVICE_NAME
+Name of an active Service and associated resource group to constrain Oracle RAC resources.
+
+SOURCE_EDITION
+Edition to be used for extracting metadata.
+
+STATUS
+Frequency (secs) job status is to be monitored where
+the default [0] will show new status when available.
+
+TABLES
+Identifies a list of tables to export.
+For example, TABLES=HR.EMPLOYEES,SH.SALES:SALES_1995.
+
+TABLESPACES
+Identifies a list of tablespaces to export.
+
+TRANSPORTABLE
+Specify whether transportable method can be used.
+Valid keyword values are: ALWAYS and [NEVER].
+
+TRANSPORT_FULL_CHECK
+Verify storage segments of all tables [NO].
+
+TRANSPORT_TABLESPACES
+List of tablespaces from which metadata will be unloaded.
+
+VERSION
+Version of objects to export.
+Valid keyword values are: [COMPATIBLE], LATEST or any valid database version.
+
+VIEWS_AS_TABLES
+Identifies one or more views to be exported as tables.
+For example, VIEWS_AS_TABLES=HR.EMP_DETAILS_VIEW.
+
+------------------------------------------------------------------------------
+
+The following commands are valid while in interactive mode.
+Note: abbreviations are allowed.
+
+ADD_FILE
+Add dumpfile to dumpfile set.
+
+CONTINUE_CLIENT
+Return to logging mode. Job will be restarted if idle.
+
+EXIT_CLIENT
+Quit client session and leave job running.
+
+FILESIZE
+Default filesize (bytes) for subsequent ADD_FILE commands.
+
+HELP
+Summarize interactive commands.
+
+KILL_JOB
+Detach and delete job.
+
+PARALLEL
+Change the number of active workers for current job.
+
+REUSE_DUMPFILES
+Overwrite destination dump file if it exists [NO].
+
+START_JOB
+Start or resume current job.
+Valid keyword values are: SKIP_CURRENT.
+
+STATUS
+Frequency (secs) job status is to be monitored where
+the default [0] will show new status when available.
+
+STOP_JOB
+Orderly shutdown of job execution and exits the client.
+Valid keyword values are: IMMEDIATE.
+
+STOP_WORKER
+Stops a hung or stuck worker.
+
+TRACE
+Set trace/debug flags for the current job.
+
+FULL EXPORT MODE:
+
+
+C:\Users\laxmi>expdp system/Govinda123 directory=data_pump_dir dumpfile=mynewdb_01312021.dmp full =y
+
+Export: Release 19.0.0.0.0 - Production on Sun Jan 31 23:14:52 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+
+Warning: Oracle Data Pump operations are not typically needed when connected to the root or seed of a container database.
+
+Starting "SYSTEM"."SYS_EXPORT_FULL_01":  system/******** directory=data_pump_dir dumpfile=mynewdb_01312021.dmp full=y
+Processing object type DATABASE_EXPORT/EARLY_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/TABLE_DATA
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE_DATA
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/TABLE_DATA
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type DATABASE_EXPORT/STATISTICS/MARKER
+Processing object type DATABASE_EXPORT/PRE_SYSTEM_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/PRE_INSTANCE_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/TABLESPACE
+Processing object type DATABASE_EXPORT/PROFILE
+Processing object type DATABASE_EXPORT/RADM_FPTM
+Processing object type DATABASE_EXPORT/GRANT/SYSTEM_GRANT/PROC_SYSTEM_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/ROLE_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/DEFAULT_ROLE
+Processing object type DATABASE_EXPORT/SCHEMA/ON_USER_GRANT
+Processing object type DATABASE_EXPORT/SCHEMA/TABLESPACE_QUOTA
+Processing object type DATABASE_EXPORT/RESOURCE_COST
+Processing object type DATABASE_EXPORT/SCHEMA/DB_LINK
+Processing object type DATABASE_EXPORT/TRUSTED_DB_LINK
+Processing object type DATABASE_EXPORT/SYSTEM_PROCOBJACT/PRE_SYSTEM_ACTIONS/PROCACT_SYSTEM
+Processing object type DATABASE_EXPORT/SYSTEM_PROCOBJACT/PROCOBJ
+Processing object type DATABASE_EXPORT/SYSTEM_PROCOBJACT/POST_SYSTEM_ACTIONS/PROCACT_SYSTEM
+Processing object type DATABASE_EXPORT/SCHEMA/PROCACT_SCHEMA
+Processing object type DATABASE_EXPORT/EARLY_OPTIONS/VIEWS_AS_TABLES/TABLE
+Processing object type DATABASE_EXPORT/EARLY_POST_INSTANCE_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/TABLE
+Processing object type DATABASE_EXPORT/NORMAL_OPTIONS/VIEWS_AS_TABLES/TABLE
+Processing object type DATABASE_EXPORT/NORMAL_POST_INSTANCE_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/TABLE
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/COMMENT
+Processing object type DATABASE_EXPORT/SCHEMA/VIEW/VIEW
+Processing object type DATABASE_EXPORT/SCHEMA/TABLE/INDEX/INDEX
+Processing object type DATABASE_EXPORT/FINAL_POST_INSTANCE_IMPCALLOUT/MARKER
+Processing object type DATABASE_EXPORT/SCHEMA/POST_SCHEMA/PROCACT_SCHEMA
+Processing object type DATABASE_EXPORT/AUDIT_UNIFIED/AUDIT_POLICY_ENABLE
+Processing object type DATABASE_EXPORT/POST_SYSTEM_IMPCALLOUT/MARKER
+. . exported "SYS"."KU$_USER_MAPPING_VIEW"               6.078 KB      37 rows
+. . exported "AUDSYS"."AUD$UNIFIED":"SYS_P181"           113.6 KB     128 rows
+. . exported "AUDSYS"."AUD$UNIFIED":"SYS_P291"           232.8 KB     269 rows
+. . exported "SYSTEM"."REDO_DB"                          25.59 KB       1 rows
+. . exported "WMSYS"."WM$WORKSPACES_TABLE$"              12.10 KB       1 rows
+. . exported "WMSYS"."WM$HINT_TABLE$"                    9.984 KB      97 rows
+. . exported "LBACSYS"."OLS$INSTALLATIONS"               6.960 KB       2 rows
+. . exported "WMSYS"."WM$WORKSPACE_PRIV_TABLE$"          7.078 KB      11 rows
+. . exported "SYS"."DAM_CONFIG_PARAM$"                   6.531 KB      14 rows
+. . exported "SYS"."TSDP_SUBPOL$"                        6.328 KB       1 rows
+. . exported "WMSYS"."WM$NEXTVER_TABLE$"                 6.375 KB       1 rows
+. . exported "LBACSYS"."OLS$PROPS"                       6.234 KB       5 rows
+. . exported "WMSYS"."WM$ENV_VARS$"                      6.015 KB       3 rows
+. . exported "SYS"."TSDP_PARAMETER$"                     5.953 KB       1 rows
+. . exported "SYS"."TSDP_POLICY$"                        5.921 KB       1 rows
+. . exported "WMSYS"."WM$VERSION_HIERARCHY_TABLE$"       5.984 KB       1 rows
+. . exported "WMSYS"."WM$EVENTS_INFO$"                   5.812 KB      12 rows
+. . exported "LBACSYS"."OLS$AUDIT_ACTIONS"               5.757 KB       8 rows
+. . exported "LBACSYS"."OLS$DIP_EVENTS"                  5.539 KB       2 rows
+. . exported "AUDSYS"."AUD$UNIFIED":"AUD_UNIFIED_P0"         0 KB       0 rows
+. . exported "LBACSYS"."OLS$AUDIT"                           0 KB       0 rows
+. . exported "LBACSYS"."OLS$COMPARTMENTS"                    0 KB       0 rows
+. . exported "LBACSYS"."OLS$DIP_DEBUG"                       0 KB       0 rows
+. . exported "LBACSYS"."OLS$GROUPS"                          0 KB       0 rows
+. . exported "LBACSYS"."OLS$LAB"                             0 KB       0 rows
+. . exported "LBACSYS"."OLS$LEVELS"                          0 KB       0 rows
+. . exported "LBACSYS"."OLS$POL"                             0 KB       0 rows
+. . exported "LBACSYS"."OLS$POLICY_ADMIN"                    0 KB       0 rows
+. . exported "LBACSYS"."OLS$POLS"                            0 KB       0 rows
+. . exported "LBACSYS"."OLS$POLT"                            0 KB       0 rows
+. . exported "LBACSYS"."OLS$PROFILE"                         0 KB       0 rows
+. . exported "LBACSYS"."OLS$PROFILES"                        0 KB       0 rows
+. . exported "LBACSYS"."OLS$PROG"                            0 KB       0 rows
+. . exported "LBACSYS"."OLS$SESSINFO"                        0 KB       0 rows
+. . exported "LBACSYS"."OLS$USER"                            0 KB       0 rows
+. . exported "LBACSYS"."OLS$USER_COMPARTMENTS"               0 KB       0 rows
+. . exported "LBACSYS"."OLS$USER_GROUPS"                     0 KB       0 rows
+. . exported "LBACSYS"."OLS$USER_LEVELS"                     0 KB       0 rows
+. . exported "SYS"."AUD$"                                    0 KB       0 rows
+. . exported "SYS"."DAM_CLEANUP_EVENTS$"                     0 KB       0 rows
+. . exported "SYS"."DAM_CLEANUP_JOBS$"                       0 KB       0 rows
+. . exported "SYS"."TSDP_ASSOCIATION$"                       0 KB       0 rows
+. . exported "SYS"."TSDP_CONDITION$"                         0 KB       0 rows
+. . exported "SYS"."TSDP_FEATURE_POLICY$"                    0 KB       0 rows
+. . exported "SYS"."TSDP_PROTECTION$"                        0 KB       0 rows
+. . exported "SYS"."TSDP_SENSITIVE_DATA$"                    0 KB       0 rows
+. . exported "SYS"."TSDP_SENSITIVE_TYPE$"                    0 KB       0 rows
+. . exported "SYS"."TSDP_SOURCE$"                            0 KB       0 rows
+. . exported "SYSTEM"."REDO_LOG"                             0 KB       0 rows
+. . exported "WMSYS"."WM$BATCH_COMPRESSIBLE_TABLES$"         0 KB       0 rows
+. . exported "WMSYS"."WM$CONSTRAINTS_TABLE$"                 0 KB       0 rows
+. . exported "WMSYS"."WM$CONS_COLUMNS$"                      0 KB       0 rows
+. . exported "WMSYS"."WM$LOCKROWS_INFO$"                     0 KB       0 rows
+. . exported "WMSYS"."WM$MODIFIED_TABLES$"                   0 KB       0 rows
+. . exported "WMSYS"."WM$MP_GRAPH_WORKSPACES_TABLE$"         0 KB       0 rows
+. . exported "WMSYS"."WM$MP_PARENT_WORKSPACES_TABLE$"        0 KB       0 rows
+. . exported "WMSYS"."WM$NESTED_COLUMNS_TABLE$"              0 KB       0 rows
+. . exported "WMSYS"."WM$RESOLVE_WORKSPACES_TABLE$"          0 KB       0 rows
+. . exported "WMSYS"."WM$RIC_LOCKING_TABLE$"                 0 KB       0 rows
+. . exported "WMSYS"."WM$RIC_TABLE$"                         0 KB       0 rows
+. . exported "WMSYS"."WM$RIC_TRIGGERS_TABLE$"                0 KB       0 rows
+. . exported "WMSYS"."WM$UDTRIG_DISPATCH_PROCS$"             0 KB       0 rows
+. . exported "WMSYS"."WM$UDTRIG_INFO$"                       0 KB       0 rows
+. . exported "WMSYS"."WM$VERSION_TABLE$"                     0 KB       0 rows
+. . exported "WMSYS"."WM$VT_ERRORS_TABLE$"                   0 KB       0 rows
+. . exported "WMSYS"."WM$WORKSPACE_SAVEPOINTS_TABLE$"        0 KB       0 rows
+. . exported "MDSYS"."RDF_PARAM$"                        6.515 KB       3 rows
+. . exported "SYS"."AUDTAB$TBS$FOR_EXPORT"               5.953 KB       2 rows
+. . exported "SYS"."DBA_SENSITIVE_DATA"                      0 KB       0 rows
+. . exported "SYS"."DBA_TSDP_POLICY_PROTECTION"              0 KB       0 rows
+. . exported "SYS"."FGA_LOG$FOR_EXPORT"                      0 KB       0 rows
+. . exported "SYS"."NACL$_ACE_EXP"                           0 KB       0 rows
+. . exported "SYS"."NACL$_HOST_EXP"                      6.976 KB       2 rows
+. . exported "SYS"."NACL$_WALLET_EXP"                        0 KB       0 rows
+. . exported "SYS"."SQL$TEXT_DATAPUMP"                       0 KB       0 rows
+. . exported "SYS"."SQL$_DATAPUMP"                           0 KB       0 rows
+. . exported "SYS"."SQLOBJ$AUXDATA_DATAPUMP"                 0 KB       0 rows
+. . exported "SYS"."SQLOBJ$DATA_DATAPUMP"                    0 KB       0 rows
+. . exported "SYS"."SQLOBJ$PLAN_DATAPUMP"                    0 KB       0 rows
+. . exported "SYS"."SQLOBJ$_DATAPUMP"                        0 KB       0 rows
+. . exported "SYSTEM"."SCHEDULER_JOB_ARGS"                   0 KB       0 rows
+. . exported "SYSTEM"."SCHEDULER_PROGRAM_ARGS"               0 KB       0 rows
+. . exported "WMSYS"."WM$EXP_MAP"                        7.718 KB       3 rows
+. . exported "WMSYS"."WM$METADATA_MAP"                       0 KB       0 rows
+. . exported "SYSTEM"."CUSTOMER"                         7.031 KB       7 rows
+. . exported "SYSTEM"."PRODUCT"                          6.445 KB       4 rows
+. . exported "SYSTEM"."EMPLOYEE"                         6.648 KB      12 rows
+. . exported "SYSTEM"."STUDENTS"                         6.453 KB       4 rows
+Master table "SYSTEM"."SYS_EXPORT_FULL_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYSTEM.SYS_EXPORT_FULL_01 is:
+  C:\ORACLE\ADMIN\ORCTRN\DPDUMP\MYNEWDB_01312021.DMP
+Job "SYSTEM"."SYS_EXPORT_FULL_01" successfully completed at Sun Jan 31 23:17:56 2021 elapsed 0 00:03:03
+
+C:\Users\laxmi>expdp system/Govinda123 directory=data_pump_dir dumpfile=mydbnew_02012021.dmp tables=system.employee,system.customer,system.product
+
+Export: Release 19.0.0.0.0 - Production on Mon Feb 1 13:18:10 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+
+Warning: Oracle Data Pump operations are not typically needed when connected to the root or seed of a container database.
+
+Starting "SYSTEM"."SYS_EXPORT_TABLE_01":  system/******** directory=data_pump_dir dumpfile=mydbnew_02012021.dmp tables=system.employee,system.customer,system.product
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/COMMENT
+. . exported "SYSTEM"."CUSTOMER"                         7.031 KB       7 rows
+. . exported "SYSTEM"."PRODUCT"                          6.445 KB       4 rows
+. . exported "SYSTEM"."EMPLOYEE"                         6.648 KB      12 rows
+Master table "SYSTEM"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYSTEM.SYS_EXPORT_TABLE_01 is:
+  C:\ORACLE\ADMIN\ORCTRN\DPDUMP\MYDBNEW_02012021.DMP
+Job "SYSTEM"."SYS_EXPORT_TABLE_01" successfully completed at Mon Feb 1 13:18:40 2021 elapsed 0 00:00:29
+
+
+
+
+
+
+C:\Users\laxmi>expdp system/Govinda123 directory=data_pump_dir dumpfile=newdbs_0201202.dmp
+
+Export: Release 19.0.0.0.0 - Production on Mon Feb 1 13:23:50 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+
+Warning: Oracle Data Pump operations are not typically needed when connected to the root or seed of a container database.
+
+Starting "SYSTEM"."SYS_EXPORT_SCHEMA_01":  system/******** directory=data_pump_dir dumpfile=newdbs_0201202.dmp
+Processing object type SCHEMA_EXPORT/TABLE/TABLE_DATA
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type SCHEMA_EXPORT/STATISTICS/MARKER
+Processing object type SCHEMA_EXPORT/DEFAULT_ROLE
+Processing object type SCHEMA_EXPORT/PRE_SCHEMA/PROCACT_SCHEMA
+Processing object type SCHEMA_EXPORT/TABLE/TABLE
+Processing object type SCHEMA_EXPORT/TABLE/COMMENT
+Processing object type SCHEMA_EXPORT/VIEW/VIEW
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/INDEX
+. . exported "SYSTEM"."CUSTOMER"                         7.031 KB       7 rows
+. . exported "SYSTEM"."PRODUCT"                          6.445 KB       4 rows
+. . exported "SYSTEM"."EMPLOYEE"                         6.648 KB      12 rows
+. . exported "SYSTEM"."STUDENTS"                         6.453 KB       4 rows
+Master table "SYSTEM"."SYS_EXPORT_SCHEMA_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYSTEM.SYS_EXPORT_SCHEMA_01 is:
+  C:\ORACLE\ADMIN\ORCTRN\DPDUMP\NEWDBS_0201202.DMP
+Job "SYSTEM"."SYS_EXPORT_SCHEMA_01" successfully completed at Mon Feb 1 13:25:01 2021 elapsed 0 00:01:10
+
+TABLE MODE(EXPORT)
+
+
+C:\Users\laxmi>expdp system/Govinda123 directory=data_pump_dir dumpfile=dbs_02012021.dmp tables=system.employee,system.customer,system.product
+
+Export: Release 19.0.0.0.0 - Production on Mon Feb 1 14:14:12 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+
+Warning: Oracle Data Pump operations are not typically needed when connected to the root or seed of a container database.
+
+Starting "SYSTEM"."SYS_EXPORT_TABLE_01":  system/******** directory=data_pump_dir dumpfile=dbs_02012021.dmp tables=system.employee,system.customer,system.product
+Processing object type TABLE_EXPORT/TABLE/TABLE_DATA
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type TABLE_EXPORT/TABLE/STATISTICS/MARKER
+Processing object type TABLE_EXPORT/TABLE/TABLE
+Processing object type TABLE_EXPORT/TABLE/COMMENT
+. . exported "SYSTEM"."CUSTOMER"                         7.031 KB       7 rows
+. . exported "SYSTEM"."PRODUCT"                          6.445 KB       4 rows
+. . exported "SYSTEM"."EMPLOYEE"                         6.648 KB      12 rows
+Master table "SYSTEM"."SYS_EXPORT_TABLE_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYSTEM.SYS_EXPORT_TABLE_01 is:
+  C:\ORACLE\ADMIN\ORCTRN\DPDUMP\DBS_02012021.DMP
+Job "SYSTEM"."SYS_EXPORT_TABLE_01" successfully completed at Mon Feb 1 14:14:30 2021 elapsed 0 00:00:16
+
+
+SCHEMA MODE(EXPORT)
+
+
+C:\Users\laxmi>expdp system/Govinda123 directory=data_pump_dir dumpfile=dbs_0201202.dmp schama
+
+Export: Release 19.0.0.0.0 - Production on Mon Feb 1 13:27:52 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+Connected to: Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+
+Warning: Oracle Data Pump operations are not typically needed when connected to the root or seed of a container database.
+
+Starting "SYSTEM"."SYS_EXPORT_SCHEMA_01":  system/******** directory=data_pump_dir dumpfile=dbs_0201202.dmp schama
+Processing object type SCHEMA_EXPORT/TABLE/TABLE_DATA
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/STATISTICS/INDEX_STATISTICS
+Processing object type SCHEMA_EXPORT/TABLE/STATISTICS/TABLE_STATISTICS
+Processing object type SCHEMA_EXPORT/STATISTICS/MARKER
+Processing object type SCHEMA_EXPORT/DEFAULT_ROLE
+Processing object type SCHEMA_EXPORT/PRE_SCHEMA/PROCACT_SCHEMA
+Processing object type SCHEMA_EXPORT/TABLE/TABLE
+Processing object type SCHEMA_EXPORT/TABLE/COMMENT
+Processing object type SCHEMA_EXPORT/VIEW/VIEW
+Processing object type SCHEMA_EXPORT/TABLE/INDEX/INDEX
+. . exported "SYSTEM"."CUSTOMER"                         7.031 KB       7 rows
+. . exported "SYSTEM"."PRODUCT"                          6.445 KB       4 rows
+. . exported "SYSTEM"."EMPLOYEE"                         6.648 KB      12 rows
+. . exported "SYSTEM"."STUDENTS"                         6.453 KB       4 rows
+Master table "SYSTEM"."SYS_EXPORT_SCHEMA_01" successfully loaded/unloaded
+******************************************************************************
+Dump file set for SYSTEM.SYS_EXPORT_SCHEMA_01 is:
+  C:\ORACLE\ADMIN\ORCTRN\DPDUMP\DBS_0201202.DMP
+Job "SYSTEM"."SYS_EXPORT_SCHEMA_01" successfully completed at Mon Feb 1 13:28:57 2021 elapsed 0 00:01:04
+
+
+
+                     RMAN:
+
+
+
+C:\Users\laxmi>rman
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Mon Feb 1 16:43:18 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+RMAN> connect / as sysdba;
+
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK rmanrmasSHFOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-00558: error encountered while parsing input commands
+RMAN-01006: error signaled during parse
+RMAN-02001: unrecognized punctuation symbol "/"
+
+RMAN> connect target;
+
+connected to target database: ORCTRN (DBID=3206875165)
+
+RMAN> show all;
+
+using target database control file instead of recovery catalog
+RMAN configuration parameters for database with db_unique_name ORCTRN are:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 1; # default
+CONFIGURE BACKUP OPTIMIZATION OFF; # default
+CONFIGURE DEFAULT DEVICE TYPE TO DISK; # default
+CONFIGURE CONTROLFILE AUTOBACKUP ON; # default
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '%F'; # default
+CONFIGURE DEVICE TYPE DISK PARALLELISM 1 BACKUP TYPE TO BACKUPSET; # default
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE MAXSETSIZE TO UNLIMITED; # default
+CONFIGURE ENCRYPTION FOR DATABASE OFF; # default
+CONFIGURE ENCRYPTION ALGORITHM 'AES128'; # default
+CONFIGURE COMPRESSION ALGORITHM 'BASIC' AS OF RELEASE 'DEFAULT' OPTIMIZE FOR LOAD TRUE ; # default
+CONFIGURE RMAN OUTPUT TO KEEP FOR 7 DAYS; # default
+CONFIGURE ARCHIVELOG DELETION POLICY TO NONE; # default
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO 'C:\USERS\LAXMI\DOWNLOADS\WINDOWS.X64_193000_DB_HOME\DATABASE\SNCFORCTRN.ORA'; # default
+
+RMAN> backup database;
+
+Starting backup at 01-FEB-21
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=150 device type=DISK
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-03002: failure of backup command at 02/01/2021 16:49:17
+RMAN-06149: cannot BACKUP DATABASE in NOARCHIVELOG mode
+
+RMAN> sqlplus / as sysdba;
+
+RMAN-00571: ===========================================================
+RMAN-00569: =============== ERROR MESSAGE STACK FOLLOWS ===============
+RMAN-00571: ===========================================================
+RMAN-00558: error encountered while parsing input commands
+RMAN-01009: syntax error: found "identifier": expecting one of: "advise, allocate, alter, analyze, associate statistics, audit, backup, begin, @, call, catalog, change, comment, commit, configure, connect, convert, copy, create, create catalog, create global, create or replace global, create or replace script, create script, crosscheck, declare, delete, delete from, describe, describe catalog, disassociate statistics, drop, drop catalog, drop database, duplicate, exit, explain plan, flashback, flashback table, grant, grant catalog, grant register, host, import, insert, list, lock, merge, mount, noaudit, open, print, purge, quit, recover, register, release"
+RMAN-01008: the bad identifier was: sqlplus
+RMAN-01007: at line 1 column 1 file: standard input
+
+RMAN> exit
+
+
+Recovery Manager complete.
+
+C:\Users\laxmi>sqlplus / as sysdba;
+
+SQL*Plus: Release 19.0.0.0.0 - Production on Mon Feb 1 16:57:09 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+SQL> SHUTDOWN IMMEDIATE;
+Database closed.
+Database dismounted.
+ORACLE instance shut down.
+SQL>
+SQL> startup mount;
+ORACLE instance started.
+
+Total System Global Area 5117050696 bytes
+Fixed Size                  9277256 bytes
+Variable Size            1006632960 bytes
+Database Buffers         4093640704 bytes
+Redo Buffers                7499776 bytes
+Database mounted.
+SQL>
+SQL>
+SQL> ALTER DATABASE ARCHIVELOG;
+
+Database altered.
+
+SQL> ALTER DATABASE OPEN;
+
+Database altered.
+
+SQL> ARCHIVE LOG LIST;
+Database log mode              Archive Mode
+Automatic archival             Enabled
+Archive destination            C:\Users\laxmi\Downloads\WINDOWS.X64_193000_db_home\RDBMS
+Oldest online log sequence     14
+Next log sequence to archive   16
+Current log sequence           16
+SQL> exit;
+Disconnected from Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+Version 19.3.0.0.0
+
+C:\Users\laxmi>rman target /
+
+Recovery Manager: Release 19.0.0.0.0 - Production on Mon Feb 1 17:21:24 2021
+Version 19.3.0.0.0
+
+Copyright (c) 1982, 2019, Oracle and/or its affiliates.  All rights reserved.
+
+connected to target database: ORCTRN (DBID=3206875165)
+
+
+RMAN> backup database;
+
+Starting backup at 01-FEB-21
+using target database control file instead of recovery catalog
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=18 device type=DISK
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00001 name=C:\ORACLE\ORADATA\ORCTRN\SYSTEM01.DBF
+input datafile file number=00003 name=C:\ORACLE\ORADATA\ORCTRN\SYSAUX01.DBF
+input datafile file number=00004 name=C:\ORACLE\ORADATA\ORCTRN\UNDOTBS01.DBF
+input datafile file number=00007 name=C:\ORACLE\ORADATA\ORCTRN\USERS01.DBF
+channel ORA_DISK_1: starting piece 1 at 01-FEB-21
+channel ORA_DISK_1: finished piece 1 at 01-FEB-21
+piece handle=C:\USERS\LAXMI\DOWNLOADS\WINDOWS.X64_193000_DB_HOME\DATABASE\01VM405M_1_1 tag=TAG20210201T172158 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:15
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00010 name=C:\ORACLE\ORADATA\ORCTRN\ORCLPDB\SYSAUX01.DBF
+input datafile file number=00009 name=C:\ORACLE\ORADATA\ORCTRN\ORCLPDB\SYSTEM01.DBF
+input datafile file number=00011 name=C:\ORACLE\ORADATA\ORCTRN\ORCLPDB\UNDOTBS01.DBF
+input datafile file number=00012 name=C:\ORACLE\ORADATA\ORCTRN\ORCLPDB\USERS01.DBF
+channel ORA_DISK_1: starting piece 1 at 01-FEB-21
+channel ORA_DISK_1: finished piece 1 at 01-FEB-21
+piece handle=C:\USERS\LAXMI\DOWNLOADS\WINDOWS.X64_193000_DB_HOME\DATABASE\02VM4065_1_1 tag=TAG20210201T172158 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:03
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00006 name=C:\ORACLE\ORADATA\ORCTRN\PDBSEED\SYSAUX01.DBF
+input datafile file number=00005 name=C:\ORACLE\ORADATA\ORCTRN\PDBSEED\SYSTEM01.DBF
+input datafile file number=00008 name=C:\ORACLE\ORADATA\ORCTRN\PDBSEED\UNDOTBS01.DBF
+channel ORA_DISK_1: starting piece 1 at 01-FEB-21
+channel ORA_DISK_1: finished piece 1 at 01-FEB-21
+piece handle=C:\USERS\LAXMI\DOWNLOADS\WINDOWS.X64_193000_DB_HOME\DATABASE\03VM4068_1_1 tag=TAG20210201T172158 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:03
+Finished backup at 01-FEB-21
+
+Starting Control File and SPFILE Autobackup at 01-FEB-21
+piece handle=C:\USERS\LAXMI\DOWNLOADS\WINDOWS.X64_193000_DB_HOME\DATABASE\C-3206875165-20210201-00 comment=NONE
+Finished Control File and SPFILE Autobackup at 01-FEB-21
+
+RMAN> show all;
+
+RMAN configuration parameters for database with db_unique_name ORCTRN are:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 1; # default
+CONFIGURE BACKUP OPTIMIZATION OFF; # default
+CONFIGURE DEFAULT DEVICE TYPE TO DISK; # default
+CONFIGURE CONTROLFILE AUTOBACKUP ON; # default
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '%F'; # default
+CONFIGURE DEVICE TYPE DISK PARALLELISM 1 BACKUP TYPE TO BACKUPSET; # default
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE MAXSETSIZE TO UNLIMITED; # default
+CONFIGURE ENCRYPTION FOR DATABASE OFF; # default
+CONFIGURE ENCRYPTION ALGORITHM 'AES128'; # default
+CONFIGURE COMPRESSION ALGORITHM 'BASIC' AS OF RELEASE 'DEFAULT' OPTIMIZE FOR LOAD TRUE ; # default
+CONFIGURE RMAN OUTPUT TO KEEP FOR 7 DAYS; # default
+CONFIGURE ARCHIVELOG DELETION POLICY TO NONE; # default
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO 'C:\USERS\LAXMI\DOWNLOADS\WINDOWS.X64_193000_DB_HOME\DATABASE\SNCFORCTRN.ORA'; # default
+
+RMAN> CONFIGURE RETENTION POLICY TO REDUNDANCY 30;
+
+new RMAN configuration parameters:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 30;
+new RMAN configuration parameters are successfully stored
+
+RMAN> show all;
+
+RMAN configuration parameters for database with db_unique_name ORCTRN are:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 30;
+CONFIGURE BACKUP OPTIMIZATION OFF; # default
+CONFIGURE DEFAULT DEVICE TYPE TO DISK; # default
+CONFIGURE CONTROLFILE AUTOBACKUP ON; # default
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '%F'; # default
+CONFIGURE DEVICE TYPE DISK PARALLELISM 1 BACKUP TYPE TO BACKUPSET; # default
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE MAXSETSIZE TO UNLIMITED; # default
+CONFIGURE ENCRYPTION FOR DATABASE OFF; # default
+CONFIGURE ENCRYPTION ALGORITHM 'AES128'; # default
+CONFIGURE COMPRESSION ALGORITHM 'BASIC' AS OF RELEASE 'DEFAULT' OPTIMIZE FOR LOAD TRUE ; # default
+CONFIGURE RMAN OUTPUT TO KEEP FOR 7 DAYS; # default
+CONFIGURE ARCHIVELOG DELETION POLICY TO NONE; # default
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO 'C:\USERS\LAXMI\DOWNLOADS\WINDOWS.X64_193000_DB_HOME\DATABASE\SNCFORCTRN.ORA'; # default
+
+RMAN> CONFIGURE BACKUP OPTIMIZATION On;
+
+new RMAN configuration parameters:
+CONFIGURE BACKUP OPTIMIZATION ON;
+new RMAN configuration parameters are successfully stored
+
+RMAN> show all;
+
+RMAN configuration parameters for database with db_unique_name ORCTRN are:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 30;
+CONFIGURE BACKUP OPTIMIZATION ON;
+CONFIGURE DEFAULT DEVICE TYPE TO DISK; # default
+CONFIGURE CONTROLFILE AUTOBACKUP ON; # default
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO '%F'; # default
+CONFIGURE DEVICE TYPE DISK PARALLELISM 1 BACKUP TYPE TO BACKUPSET; # default
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE MAXSETSIZE TO UNLIMITED; # default
+CONFIGURE ENCRYPTION FOR DATABASE OFF; # default
+CONFIGURE ENCRYPTION ALGORITHM 'AES128'; # default
+CONFIGURE COMPRESSION ALGORITHM 'BASIC' AS OF RELEASE 'DEFAULT' OPTIMIZE FOR LOAD TRUE ; # default
+CONFIGURE RMAN OUTPUT TO KEEP FOR 7 DAYS; # default
+CONFIGURE ARCHIVELOG DELETION POLICY TO NONE; # default
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO 'C:\USERS\LAXMI\DOWNLOADS\WINDOWS.X64_193000_DB_HOME\DATABASE\SNCFORCTRN.ORA'; # default
+
+RMAN>
+^C
+C:\Users\laxmi>
+
+
+###
+
+CREATE A NEW SCHEMA OREMS
+
+
+IMPORT THE TABLE CUSTOMER, EMPLOYEE, PRODUCT ,STEDENT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RMAN>
+
+
+
+C:\Users\laxmi>rman
+
+RMAN> connect / as sysdba;
+
+RMAN> connect target;
+
+RMAN> show all;
+
+RMAN> backup database;
+
+RMAN> sqlplus / as sysdba;
+
+RMAN> exit
+
+sqlplus / as sysdba;
+
+ SHUTDOWN IMMEDIATE;
+
+ startup mount;
+
+ALTER DATABASE ARCHIVELOG;
+
+ALTER DATABASE OPEN;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DATA EXPORT
+DATA IMPORT
+
+DATABASE BACKUP
+
+CREATE TABLE
+
+DROP TABLE
+
+INSERT DATA
+
+DELETE DATA
+
+UPDATE DATA
+
